@@ -17,7 +17,7 @@
       <div class="profile-menu" (click)="toggleDropdown()">
         <img src="assets/icons/user.svg" alt="Profile" class="profile-icon" />
         <div class="dropdown" *ngIf="dropdownOpen">
-          <a routerLink="/profile">Profile</a>
+          <a [routerLink]="['/profile', loggedInUsername]">Profile</a>
           <a routerLink="/settings">Settings</a>
           <hr />
           <button (click)="logout()">Logout</button>
