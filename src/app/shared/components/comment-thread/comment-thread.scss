@@ -1,0 +1,40 @@
+.comment-thread {
+  margin-top: 1rem;
+
+  .comment-list {
+    margin-bottom: 1rem;
+
+    .comment-item {
+      padding: 0.5rem;
+      border-bottom: 1px solid #ddd;
+
+      .meta {
+        font-size: 0.85rem;
+        color: #555;
+      }
+
+      .text {
+        margin-top: 0.25rem;
+      }
+    }
+  }
+
+  .comment-form {
+    display: flex;
+    flex-direction: column;
+
+    textarea {
+      resize: vertical;
+      margin-bottom: 0.5rem;
+    }
+
+    button {
+      align-self: flex-end;
+    }
+  }
+
+  .error {
+    color: red;
+    margin-bottom: 0.5rem;
+  }
+}

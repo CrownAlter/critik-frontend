@@ -1,0 +1,32 @@
+<div class="profile" *ngIf="profileUser">
+  <div class="profile-header">
+    <h2>{{ profileUser.displayName || profileUser.username }}</h2>
+    <p>@{{ profileUser.username }}</p>
+    <p>{{ profileUser.bio || 'No bio yet.' }}</p>
+
+    <div class="follow-info">
+      <span>{{ followers.length }} Followers</span>
+      <span>{{ following.length }} Following</span>
+    </div>
+
+    <app-follow-button
+      [followerId]="loggedInUserId"
+      [followedId]="profileUser.id"
+      [isFollowing]="profileUser.isFollowing ?? false"
+      (followStatusChanged)="profileUser.isFollowing = $event">
+    </app-follow-button>
+  </div>
+
+  <button 
+    *ngIf="profileUser.username === loggedInUsername" 
+    class="btn btn-outline-primary"
+    [routerLink]="['edit']">
+    Edit Profile
+  </button>
+
+  <div class="artwork-grid">
+    <div class="tile" *ngFor="let a of artworks">
+      <img [src]="a.imageUrl" [alt]="a.interpretation || 'Artwork'">
+    </div>
+  </div>
+</div>

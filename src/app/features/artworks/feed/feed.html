@@ -1,0 +1,16 @@
+<div class="feed">
+  <h2>Artwork Feed</h2>
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="grid">
+    <div class="tile" *ngFor="let a of artworks">
+      <img [src]="a.imageUrl" alt="Artwork" />
+      <div class="meta">
+        <div><strong>{{ a.user.displayName || a.user.username }}</strong></div>
+        <div>{{ a.interpretation }}</div>
+        <small>{{ a.locationName }}</small>
+      </div>
+    </div>
+  </div>
+</div>

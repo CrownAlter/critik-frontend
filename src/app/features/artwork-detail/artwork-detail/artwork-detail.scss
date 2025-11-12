@@ -1,0 +1,36 @@
+.artwork-detail {
+  padding: 1rem;
+
+  .artwork-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .artwork-image {
+      width: 300px;
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    }
+
+    .info {
+      flex: 1;
+
+      .tags {
+        margin-top: 0.5rem;
+
+        .tag {
+          background-color: #eee;
+          border-radius: 4px;
+          padding: 0.25rem 0.5rem;
+          margin-right: 0.25rem;
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+
+  .error {
+    color: red;
+  }
+}

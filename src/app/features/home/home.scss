@@ -1,0 +1,46 @@
+.hero {
+    padding-top: 250px;
+    height: 100vh; 
+    text-align: center;
+    font-size: 200%;
+}
+
+
+.hero button {
+  background-color: #ff4757;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hero button:hover {
+  background-color: #e84118;
+}
+
+.features {
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e84118;
+}
+
+.testimonials {
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: aqua;
+}
+
+.contact {
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: blueviolet;
+}

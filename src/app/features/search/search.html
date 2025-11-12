@@ -1,0 +1,36 @@
+<div class="search-bar">
+  <input
+    type="text"
+    [(ngModel)]="query"
+    (keyup.enter)="onSearch()"
+    placeholder="Search Critik..."
+  />
+
+  <button (click)="onSearch()" [disabled]="loading">
+    <span *ngIf="!loading">🔍</span>
+    <span *ngIf="loading" class="spinner"></span>
+  </button>
+
+  <!-- Optional dropdown results (can be hidden by default) -->
+  <div class="search-results" *ngIf="!loading && (users.length || artworks.length)">
+    <!-- Artworks -->
+    <div *ngIf="artworks.length" class="result-section">
+      <h4>Artworks</h4>
+      <ul>
+        <li *ngFor="let artwork of artworks">
+          <a [routerLink]="['/artwork', artwork.id]">{{ artwork.title }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Users -->
+    <div *ngIf="users.length" class="result-section">
+      <h4>Users</h4>
+      <ul>
+        <li *ngFor="let user of users">
+          <a [routerLink]="['/profile', user.username]">{{ user.username }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

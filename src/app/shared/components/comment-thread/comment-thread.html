@@ -1,0 +1,21 @@
+<div class="comment-thread">
+  <h3>Comments</h3>
+
+  <div *ngIf="loading">Loading comments…</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="comment-list">
+    <div *ngFor="let c of comments" class="comment-item">
+      <div class="meta">
+        <strong>{{ c.user.displayName || c.user.username }}</strong>
+        • <span>{{ c.createdAt | date:'short' }}</span>
+      </div>
+      <div class="text">{{ c.commentText }}</div>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="post()" class="comment-form">
+    <textarea formControlName="text" placeholder="Write a comment..." rows="3"></textarea>
+    <button type="submit" [disabled]="form.invalid || posting">Post Comment</button>
+  </form>
+</div>

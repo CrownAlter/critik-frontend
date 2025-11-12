@@ -1,0 +1,37 @@
+<div *ngIf="loading">Loading...</div>
+
+<div *ngIf="!loading && artworks.length === 0">
+  <p>No artworks found.</p>
+</div>
+
+<div *ngIf="!loading && artworks.length > 0" class="artwork-grid">
+  <div *ngFor="let artwork of artworks" class="artwork-item">
+    <img
+      [src]="getImageUrl(artwork.imageUrl)"
+      alt="Artwork image"
+      width="300"
+      height="300"
+    />
+
+    <div class="details">
+      <h3>{{ artwork.user.displayName || artwork.user.username }}</h3>
+      <p>{{ artwork.interpretation }}</p>
+
+      <p *ngIf="artwork.locationName">
+        📍 {{ artwork.locationName }}
+      </p>
+
+      <p *ngIf="artwork.tags">
+        🏷️
+        <span *ngIf="isString(artwork.tags)">
+          {{ artwork.tags }}
+        </span>
+        <span *ngIf="!isString(artwork.tags)">
+          {{ artwork.tags.join(', ') }}
+        </span>
+      </p>
+
+      <small>{{ artwork.createdAt | date: 'medium' }}</small>
+    </div>
+  </div>
+</div>

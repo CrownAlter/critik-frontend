@@ -1,0 +1,7 @@
+.upload-card { max-width: 720px; margin: 1rem auto; padding: 1rem; border: 1px solid #eee; border-radius: 10px; }
+.preview img, .preview video { max-width: 100%; height: auto; display:block; margin-bottom:.5rem; }
+.actions { margin-top: .75rem; display:flex; gap:.5rem; }
+.progress { height: 20px; background:#f1f1f1; border-radius:6px; margin-top:.5rem; overflow:hidden; }
+.bar { height:100%; text-align:center; line-height:20px; background:#111; color:#fff; }
+.error { color: #b00020; }
+.success { color: #0a7a2f; }

@@ -1,0 +1,10 @@
+@if (artwork; as a) {
+  <h2>{{ a.title }}</h2>
+  <img [src]="a.imageUrl" alt="Artwork" />
+
+  <app-reaction-bar [artworkId]="a.id"></app-reaction-bar>
+
+  @if (a.id) {
+    <app-comment-thread [artworkId]="a.id"></app-comment-thread>
+  }
+}

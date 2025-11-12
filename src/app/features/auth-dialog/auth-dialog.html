@@ -1,0 +1,87 @@
+<div class="overlay" *ngIf="visible" (click)="closeDialog($event)">
+  <div class="auth-modal" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeDialog()" aria-label="Close">×</button>
+
+    <!-- LOGIN MODE -->
+    <form
+      *ngIf="isLoginMode"
+      [formGroup]="loginForm"
+      (ngSubmit)="onLogin()"
+      class="form login-form"
+    >
+      <h2>Welcome back</h2>
+      <p class="subtitle">Log in to continue to Critik</p>
+
+      <div *ngIf="loginError" class="error">{{ loginError }}</div>
+
+      <input
+        type="text"
+        placeholder="Username"
+        formControlName="username"
+        required
+        autocomplete="username"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        formControlName="password"
+        required
+        autocomplete="current-password"
+      />
+
+      <button type="submit" [disabled]="loginForm.invalid || loading">
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+
+      <p class="switch">
+        Don’t have an account?
+        <a (click)="switchMode()">Sign up</a>
+      </p>
+    </form>
+
+    <!-- SIGN UP MODE -->
+    <form
+      *ngIf="!isLoginMode"
+      [formGroup]="registerForm"
+      (ngSubmit)="onSignup()"
+      class="form signup-form"
+    >
+      <h2>Create Account</h2>
+      <p class="subtitle">Join Critik and start sharing your thoughts</p>
+
+      <div *ngIf="registerError" class="error">{{ registerError }}</div>
+      <div *ngIf="success" class="success">{{ success }}</div>
+
+      <input
+        type="text"
+        placeholder="Username"
+        formControlName="username"
+        required
+        autocomplete="username"
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+        required
+        autocomplete="email"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        formControlName="password"
+        required
+        autocomplete="new-password"
+      />
+
+      <button type="submit" [disabled]="registerForm.invalid || loading">
+        {{ loading ? 'Creating...' : 'Sign Up' }}
+      </button>
+
+      <p class="switch">
+        Already have an account?
+        <a (click)="switchMode()">Log in</a>
+      </p>
+    </form>
+  </div>
+</div>

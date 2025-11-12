@@ -1,0 +1,10 @@
+<div class="upload-form">
+  <h2>Upload Artwork</h2>
+
+  <input type="file" (change)="onFileChange($event)" />
+  <input type="text" placeholder="Location Name" [(ngModel)]="locationName" />
+  <input type="text" placeholder="Tags (comma-separated)" [(ngModel)]="tags" />
+  <textarea placeholder="Interpretation" [(ngModel)]="interpretation"></textarea>
+
+  <button (click)="upload()" [disabled]="uploading">Upload</button>
+</div>

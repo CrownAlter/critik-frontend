@@ -1,0 +1,14 @@
+<div class="reaction-bar">
+  <button (click)="toggleReaction('AGREE')" 
+          [class.active]="reactions.userReaction === 'AGREE'">
+    👍 Agree ({{ reactions.agree }})
+  </button>
+
+  <button (click)="toggleReaction('DISAGREE')" 
+          [class.active]="reactions.userReaction === 'DISAGREE'">
+    👎 Disagree ({{ reactions.disagree }})
+  </button>
+
+  <span *ngIf="loading">Loading...</span>
+  <span *ngIf="error" class="error">{{ error }}</span>
+</div>

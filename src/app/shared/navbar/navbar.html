@@ -1,0 +1,35 @@
+<nav>
+  <a routerLink="/home" class="brand">Critik</a>
+
+ <div *ngIf="isLoggedIn" class="nav-center">
+    <app-search></app-search>
+  </div>
+
+  <div class="nav-right">
+    <ng-container *ngIf="!isLoggedIn; else loggedInNav">
+      <div class="auth-buttons">
+        <button (click)="openPopup('login')">Login</button>
+        <button (click)="openPopup('signup')">Sign Up</button>
+      </div>
+    </ng-container>
+
+    <ng-template #loggedInNav>
+      <div class="profile-menu" (click)="toggleDropdown()">
+        <img src="assets/icons/user.svg" alt="Profile" class="profile-icon" />
+        <div class="dropdown" *ngIf="dropdownOpen">
+          <a routerLink="/profile">Profile</a>
+          <a routerLink="/settings">Settings</a>
+          <hr />
+          <button (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</nav>
+
+
+<app-auth-dialog
+  [visible]="showAuthDialog"
+  [mode]="authMode"
+  (close)="closePopup()">
+</app-auth-dialog>

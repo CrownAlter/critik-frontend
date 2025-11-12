@@ -1,0 +1,12 @@
+<button 
+  class="follow-btn" 
+  (click)="toggleFollow()" 
+  [disabled]="loading">
+
+  <span *ngIf="!loading">
+    {{ isFollowing ? 'Unfollow' : 'Follow' }}
+  </span>
+  <span *ngIf="loading">...</span>
+</button>
+
+<span *ngIf="error" class="error">{{ error }}</span>

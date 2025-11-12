@@ -1,0 +1,28 @@
+.reaction-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  button {
+    border: 1px solid #ccc;
+    padding: 0.25rem 0.5rem;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &.active {
+      background-color: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .error {
+    color: red;
+  }
+}

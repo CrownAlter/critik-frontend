@@ -1,0 +1,26 @@
+<div class="auth-card">
+  <h2>Create your Critik account</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      Username
+      <input type="text" formControlName="username" />
+    </label>
+
+    <label>
+      Email
+      <input type="email" formControlName="email" />
+    </label>
+
+    <label>
+      Password
+      <input type="password" formControlName="password" />
+    </label>
+
+    <button type="submit" [disabled]="loading || form.invalid">
+      {{ loading ? 'Creating...' : 'Create account' }}
+    </button>
+
+    <p class="success" *ngIf="success">{{ success }}</p>
+    <p class="error" *ngIf="error">{{ error }}</p>
+  </form>
+</div>
