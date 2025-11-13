@@ -1,46 +1,156 @@
-.hero {
-    padding-top: 250px;
-    height: 100vh; 
-    text-align: center;
-    font-size: 200%;
+/* styles.scss - mobile-first, modern responsive homepage */
+
+/* Variables */
+:root {
+  --bg: #fbf9fc;
+  --accent: #ff4757;
+  --accent-700: #e84118;
+  --muted: #6b6b78;
+  --nav-bg: #0f1720;
+  --container-max: 1200px;
 }
 
+/* Reset-ish */
+* { box-sizing: border-box; }
+html,body { height: 100%; margin: 0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: #111; background: var(--bg); }
 
-.hero button {
-  background-color: #ff4757;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
+/* Reusable container */
+.container {
+  width: 92%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* Header */
+.site-header {
+  background: var(--nav-bg);
   color: white;
-  border-radius: 4px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 0.6rem 0;
+  box-shadow: 0 2px 8px rgba(3,6,12,0.35);
+}
+.header-inner {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand { font-weight: 700; letter-spacing: -0.02em; }
+.search input[type="search"] {
+  width: 200px;
+  max-width: 100%;
+  padding: 0.45rem 0.75rem;
+  border-radius: 24px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.07);
+  color: #fff;
+}
+.profile-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  padding: 0.35rem 0.65rem;
+  border-radius: 20px;
+}
+
+/* HERO - mobile first */
+.hero {
+  display: grid;
+  place-items: center;
+  padding: 5.5rem 0 3.5rem; /* spacing above/below */
+  background: linear-gradient(180deg, #ffffff 0%, #fff8f9 100%);
+  text-align: center;
+  min-height: 60vh; /* grows if content more */
+}
+.hero-content {
+  padding: 0 1rem;
+}
+.hero h1 {
+  margin: 0 0 0.75rem;
+  font-weight: 800;
+  /* fluid typography: min 1.6rem, preferred 6vw, max 3.2rem */
+  font-size: clamp(1.6rem, 6vw, 3.2rem);
+  line-height: 1.05; /* tight but readable */
+}
+.hero-sub {
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+  font-size: clamp(0.95rem, 2.3vw, 1.05rem);
+}
+
+/* CTA */
+.cta-row { display: flex; gap: 1rem; justify-content: center; }
+.btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border: none;
+}
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(255,71,87,0.14);
+}
+.btn.ghost {
+  background: transparent;
+  border: 1px solid rgba(17,17,17,0.08);
+  color: #111;
 }
 
-.hero button:hover {
-  background-color: #e84118;
-}
-
+/* FEATURES - responsive grid */
 .features {
-  height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #e84118;
+  padding: 2.5rem 0;
+}
+.features-grid {
+  display: grid;
+  gap: 1rem;
+  /* auto-fit gives responsive column count without extra breakpoints */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.feature-card {
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(12,12,15,0.04);
+}
+.feature-card h3 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+.feature-card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+/* Testimonials & Contact */
+.testimonials, .contact {
+  padding: 2rem 0;
+  text-align: center;
+}
+.testimonials h2, .contact h2 { margin: 0 0 0.5rem; font-size: 1.25rem; }
+.muted { color: var(--muted); }
+
+/* Footer */
+.site-footer {
+  padding: 1.25rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
 }
 
-.testimonials {
-  height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: aqua;
+/* Larger screens (tablet & desktop) */
+@media (min-width: 768px) {
+  .header-inner { gap: 2rem; }
+  .hero { min-height: 70vh; padding: 7rem 0 3.5rem; }
+  .hero h1 { font-size: clamp(2.1rem, 5.5vw, 4rem); line-height: 1.02; }
+  .features { padding: 3.5rem 0; }
+  .cta-row { gap: 1.25rem; }
 }
 
-.contact {
-  height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: blueviolet;
+@media (min-width: 1024px) {
+  .hero { min-height: 85vh; padding-top: 9rem; }
+  .hero h1 { font-size: clamp(2.4rem, 4.5vw, 4.6rem); }
+  .container { width: 88%; }
 }

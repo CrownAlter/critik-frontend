@@ -8,6 +8,7 @@ import { CommentThreadComponent } from './components/comment-thread/comment-thre
 import { AuthDialog } from '../features/auth-dialog/auth-dialog';
 import { Search } from '../features/search/search';
 import { FormsModule } from '@angular/forms';
+import { Toast } from './ui/toast/toast';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     ReactionBar,
     CommentThreadComponent,
     AuthDialog,
-    Search
+    Search,
+    Toast
   ],
   imports: [
     CommonModule,
