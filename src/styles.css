@@ -1,0 +1,22 @@
+/* Angular Material prebuilt theme.
+ *
+ * You can switch to another theme here later (or build a custom theme via Sass).
+ */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* App global styles */
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: #f7f7f7;
+}
+
+code {
+  background: #efefef;
+  padding: 0.1rem 0.25rem;
+  border-radius: 4px;
+}
