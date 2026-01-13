@@ -12,17 +12,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
 
-/**
- * Small shared UI module to avoid repetitive Angular Material imports.
- *
- * NOTE: Even in a standalone app, a shared NgModule is a pragmatic way to centralize
- * common Material imports/exports.
- */
 @NgModule({
   exports: [
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -34,4 +30,4 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatToolbarModule
   ]
 })
-export class UiModule {}
+export class UiModule { }

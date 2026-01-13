@@ -62,7 +62,8 @@ export class AuthService {
    * @returns True if an access token is present, false otherwise.
    */
   isAuthenticated(): boolean {
-    return !!this.tokenStorage.getAccessToken();
+    // Check the signal so it's reactive
+    return !!this._username();
   }
 
   /**

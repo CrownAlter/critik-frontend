@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { UiModule } from '../../shared/ui/ui.module';
 import { SearchApi } from '../../core/api/search.api';
@@ -141,13 +142,15 @@ import { toAbsoluteApiUrl } from '../../core/api/api.util';
     `
   ]
 })
-export class SearchPage {
+export class SearchPage implements OnInit, OnDestroy {
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly users = signal<User[]>([]);
   protected readonly artworks = signal<Artwork[]>([]);
 
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly activeRoute = inject(ActivatedRoute);
+  private readonly sub = new Subscription();
 
   protected readonly form = this.fb.group({
     userQuery: this.fb.control(''),
@@ -156,7 +159,35 @@ export class SearchPage {
     tags: this.fb.control('')
   });
 
-  constructor(private readonly searchApi: SearchApi) {}
+  constructor(private readonly searchApi: SearchApi) { }
+
+  ngOnInit(): void {
+    // Listen to query params to auto-trigger search if needed (e.g. from Navbar)
+    this.sub.add(
+      this.activeRoute.queryParams.subscribe((params: Params) => {
+        const q = params['q'];
+        const userQuery = params['userQuery'];
+
+        if (q) {
+          // If 'q' is present, we assume it's a global search.
+          // We'll search for BOTH users and artworks by populating both fields.
+          this.form.patchValue({
+            userQuery: q,
+            title: q
+          });
+          this.onSearch();
+        } else if (userQuery) {
+          // If strict userQuery passed
+          this.form.patchValue({ userQuery });
+          this.onSearch();
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 
   onClear(): void {
     this.form.reset({ userQuery: '', title: '', location: '', tags: '' });
@@ -167,6 +198,11 @@ export class SearchPage {
 
   onSearch(): void {
     const v = this.form.getRawValue();
+
+    // Avoid empty search if triggered automatically with empty params
+    if (!v.userQuery && !v.title && !v.location && !v.tags) {
+      return;
+    }
 
     this.loading.set(true);
     this.error.set(null);
@@ -179,10 +215,10 @@ export class SearchPage {
     const user$ = userQ ? this.searchApi.users(userQ) : null;
     const artworks$ = hasArtworkFilters
       ? this.searchApi.artworks({
-          title: v.title.trim() || undefined,
-          location: v.location.trim() || undefined,
-          tags: v.tags.trim() || undefined
-        })
+        title: v.title.trim() || undefined,
+        location: v.location.trim() || undefined,
+        tags: v.tags.trim() || undefined
+      })
       : null;
 
     // Fire both requests (if needed) and collect results.
