@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -35,67 +35,66 @@ import { AuthDialogComponent } from '../../features/auth/auth.dialog';
   template: `
     <mat-toolbar class="navbar">
       <div class="navbar-content">
-        <!-- Brand -->
-        <a routerLink="/" class="brand">Critik</a>
-
-        <!-- Search Bar (Always Visible) -->
-        <div class="search-bar">
-          <mat-icon class="search-icon">search</mat-icon>
-            <input 
-              type="text" 
-              placeholder="Search users or artworks..." 
-              [(ngModel)]="searchQuery" 
-              (keyup.enter)="onSearch()"
-            />
+        <!-- Left Section: Toggle & Brand -->
+        <div class="navbar-left">
+            <button mat-icon-button (click)="toggleSidebar.emit()" class="toggle-btn">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <a routerLink="/" class="brand">Critik</a>
         </div>
 
-        <span class="spacer"></span>
-
-        <!-- Guest View -->
-        <ng-container *ngIf="!isAuthed()">
-          <div class="auth-buttons">
-            <button mat-button (click)="openAuth('login')">Login</button>
-            <button mat-raised-button color="primary" (click)="openAuth('register')">Sign Up</button>
-            
-            <!-- Guest Menu (About, Blog, Contact) -->
-            <button mat-icon-button [matMenuTriggerFor]="guestMenu" class="menu-btn">
-               <mat-icon>menu</mat-icon>
-            </button>
-            <mat-menu #guestMenu="matMenu" xPosition="before">
-                <a mat-menu-item routerLink="/" fragment="about">About</a>
-                <a mat-menu-item routerLink="/" fragment="blog">Blog</a>
-                <a mat-menu-item routerLink="/" fragment="contact">Contact</a>
-            </mat-menu>
-          </div>
-        </ng-container>
-
-        <!-- Auth View -->
-        <ng-container *ngIf="isAuthed()">
-          <!-- Profile -->
-          <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="profile-btn">
-             <!-- If we had an avatar URL, we'd use it here. For now, a clean icon. -->
-             <mat-icon>account_circle</mat-icon>
-          </button>
-          
-          <mat-menu #profileMenu="matMenu" xPosition="before">
-            <div class="menu-header" *ngIf="username()">
-                <span class="greeting">Hi, {{ username() }}</span>
+        <!-- Center Section: Search Bar -->
+        <div class="navbar-center hidden-mobile-xs">
+            <div class="search-bar">
+            <mat-icon class="search-icon">search</mat-icon>
+                <input 
+                type="text" 
+                placeholder="Search..." 
+                [(ngModel)]="searchQuery" 
+                (keyup.enter)="onSearch()"
+                />
             </div>
-            <mat-divider></mat-divider>
-            <a mat-menu-item [routerLink]="['/users', username()]">
-              <mat-icon>person</mat-icon>
-              <span>Profile</span>
-            </a>
-            <a mat-menu-item routerLink="/me/edit-profile">
-              <mat-icon>settings</mat-icon>
-              <span>Settings</span>
-            </a>
-            <button mat-menu-item (click)="onLogout()">
-              <mat-icon>logout</mat-icon>
-              <span>Logout</span>
-            </button>
-          </mat-menu>
-        </ng-container>
+        </div>
+
+        <!-- Right Section: Auth & Profile -->
+        <div class="navbar-right">
+            <!-- Guest View -->
+            <ng-container *ngIf="!isAuthed()">
+                <div class="auth-buttons">
+                    <button mat-button (click)="openAuth('login')">Login</button>
+                    <button mat-raised-button color="primary" (click)="openAuth('register')">Sign Up</button>
+                </div>
+            </ng-container>
+
+            <!-- Auth View -->
+            <ng-container *ngIf="isAuthed()">
+                <!-- Mobile Search Trigger (Optional, if we hide main search on small screens) -->
+                
+                <!-- Profile -->
+                <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="profile-btn">
+                    <mat-icon>account_circle</mat-icon>
+                </button>
+                
+                <mat-menu #profileMenu="matMenu" xPosition="before">
+                    <div class="menu-header" *ngIf="username()">
+                        <span class="greeting">Hi, {{ username() }}</span>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <a mat-menu-item [routerLink]="['/users', username()]">
+                        <mat-icon>person</mat-icon>
+                        <span>Profile</span>
+                    </a>
+                    <a mat-menu-item routerLink="/me/edit-profile">
+                        <mat-icon>settings</mat-icon>
+                        <span>Settings</span>
+                    </a>
+                    <button mat-menu-item (click)="onLogout()">
+                        <mat-icon>logout</mat-icon>
+                        <span>Logout</span>
+                    </button>
+                </mat-menu>
+            </ng-container>
+        </div>
       </div>
     </mat-toolbar>
   `,
@@ -109,7 +108,7 @@ import { AuthDialogComponent } from '../../features/auth/auth.dialog';
       }
 
       .navbar {
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
@@ -118,13 +117,21 @@ import { AuthDialogComponent } from '../../features/auth/auth.dialog';
 
       .navbar-content {
         width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1rem;
+        max-width: 100%; /* Full width */
+        margin: 0;
+        padding: 0 1.5rem; /* Slightly more padding for aesthetics */
         display: flex;
         align-items: center;
+        justify-content: space-between;
         height: 64px;
-        gap: 1rem;
+      }
+
+      /* Left Section */
+      .navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        /* Ensure it takes up space so center can balance, or just fixed width? Flex layout generally handles this OK */
       }
 
       .brand {
@@ -134,33 +141,17 @@ import { AuthDialogComponent } from '../../features/auth/auth.dialog';
         text-decoration: none;
         color: #111;
         letter-spacing: -0.03em;
-        transition: opacity 0.2s;
-        margin-right: 1rem;
+        margin-left: 0.25rem;
       }
 
-      .spacer {
+      /* Center Section */
+      .navbar-center {
         flex: 1;
-      }
-
-      .auth-buttons {
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-left: 1rem;
+        justify-content: center;
+        padding: 0 1rem;
       }
 
-      .menu-btn {
-        margin-left: 0.5rem;
-        color: #555;
-      }
-
-      .auth-buttons {
-        display: flex;
-        gap: 0.5rem;
-        margin-left: 1rem;
-      }
-
-      /* Search Bar Styling */
       .search-bar {
         position: relative;
         display: flex;
@@ -168,13 +159,13 @@ import { AuthDialogComponent } from '../../features/auth/auth.dialog';
         background: #f1f3f4;
         border-radius: 999px;
         padding: 0.25rem 1rem;
-        width: 300px;
+        width: 100%;
+        max-width: 400px; /* Limit width */
         transition: all 0.2s ease;
       }
       .search-bar:focus-within {
         background: #fff;
-        box-shadow: 0 0 0 2px #3f51b5; /* Primary color ring */
-        width: 320px;
+        box-shadow: 0 0 0 2px #3f51b5;
       }
       .search-icon {
         color: #757575;
@@ -192,6 +183,20 @@ import { AuthDialogComponent } from '../../features/auth/auth.dialog';
         color: #333;
       }
 
+      /* Right Section */
+      .navbar-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.5rem;
+      }
+
+      .auth-buttons {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
       .profile-btn mat-icon {
         font-size: 28px;
         width: 28px;
@@ -206,16 +211,13 @@ import { AuthDialogComponent } from '../../features/auth/auth.dialog';
         font-weight: 500;
       }
 
-      /* Mobile Helper */
-      @media (max-width: 768px) {
-        .hidden-mobile {
-          display: none;
+      /* Responsive */
+      @media (max-width: 600px) {
+        .brand {
+            font-size: 1.25rem;
         }
-        .search-bar {
-            width: 150px;
-        }
-        .search-bar:focus-within {
-            width: 200px;
+        .hidden-mobile-xs {
+            display: none; /* Hide search bar on very small screens if needed, or adjust */
         }
       }
     `,
@@ -226,6 +228,8 @@ export class NavbarComponent {
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
+
+  @Output() toggleSidebar = new EventEmitter<void>();
 
   readonly username = computed(() => this.auth.username());
   readonly isAuthed = computed(() => this.auth.isAuthenticated());
