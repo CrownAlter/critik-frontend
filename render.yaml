@@ -3,8 +3,6 @@ services:
   - type: web
     name: critik-frontend
     runtime: static        # Indicates a static site
-    plan: starter             # Free plan
-                           # Optional: branch Render deploys from
     buildCommand: "npm install && npm run build"
     staticPublishPath: "dist/critik-frontend" # Angular build output
     envVars:
