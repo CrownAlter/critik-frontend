@@ -1,8 +1,6 @@
 services:
-  - type: web
+  - type: static_site
     name: critik-frontend
-    env: static
-    plan: free
     buildCommand: "./build.sh"
     staticPublishPath: "./dist/critik-frontend/browser"
     envVars:
