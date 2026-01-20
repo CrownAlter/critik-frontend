@@ -1,13 +1,12 @@
+# render.yaml
 services:
-  - type: static_site
+  - type: web
     name: critik-frontend
-    buildCommand: "./build.sh"
-    staticPublishPath: "./dist/critik-frontend/browser"
+    runtime: static        # Indicates a static site
+    plan: starter             # Free plan
+                           # Optional: branch Render deploys from
+    buildCommand: "npm install && npm run build"
+    staticPublishPath: "dist/critik-frontend" # Angular build output
     envVars:
-      - key: API_BASE_URL
+      - key: BASE_API_URL
         value: "https://critik-backend.onrender.com"
-    routes:
-      # SPA routing: fallback to index.html
-      - type: rewrite
-        source: "/*"
-        destination: "/index.html"
