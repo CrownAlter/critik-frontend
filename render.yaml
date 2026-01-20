@@ -1,0 +1,16 @@
+services:
+  - type: static
+    name: critik-frontend
+    env: static
+    plan: free
+    region: oregon
+    buildCommand: "./build.sh"
+    staticPublishPath: "./dist/critik-frontend/browser"
+    envVars:
+      - key: API_BASE_URL
+        value: "https://critik-backend.onrender.com"
+    routes:
+      # SPA routing: redirect all non-file requests to index.html
+      - type: rewrite
+        source: "/^(?!.*\\.(?:js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|otf|json)$).*$/"
+        destination: "/index.html"

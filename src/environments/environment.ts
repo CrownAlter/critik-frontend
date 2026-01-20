@@ -4,5 +4,5 @@ export const environment = {
    *
    * Default assumes you run the Spring Boot app locally on 8080.
    */
-  apiBaseUrl: 'http://localhost:8080'
+  apiBaseUrl: 'API_BASE_URL_PLACEHOLDER'
 };
